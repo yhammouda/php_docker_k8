@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phptest
+  labels:
+    app: phptest-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: phptest
+  template:
+    metadata:
+      labels:
+        app: phptest-app
+        service: phptest
+    spec:
+      containers:
+        - name: phptest
+          image: youssefhammoud/helloworldphp:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          env:
+            - name: USER
+              value: https://shell.cloud.google.com/?hl=en_US&fromcloudshell=true&show=ide%2Cterminal
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: phptest
+  labels:
+    app: phptest-app
+    service: phptest
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+  selector:
+    service: phptest

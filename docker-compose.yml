@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  phptest_container:
+    container_name: phptest_container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: phptest
+    environment:
+      - USER=samir    
+    ports:
+      - "8085:80"
+      
+#docker-compose up -d
